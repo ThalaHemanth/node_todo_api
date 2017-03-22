@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
 require('dotenv').config();
+var mongoose = require('mongoose');
+
 
 mongoose.Promise = global.Promise;
 
