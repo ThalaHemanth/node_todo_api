@@ -13,6 +13,10 @@ var app = express();
 
 app.use(bodyParser.json());
 
+app.get('/',(req,res) => {
+  res.send("<h1> Node API created By Hemanth! </h1>")
+});
+
 app.post('/todos', (req,res) => {
   var todo = new Todo({
     text: req.body.text
