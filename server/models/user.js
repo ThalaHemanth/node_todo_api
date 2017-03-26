@@ -83,6 +83,36 @@ UserSchema.pre('save', function(next) {
   }
 });
 
+UserSchema.statics.findByCredentials = function(email,password) {
+  var Users = this;
+
+    return Users.findOne({email}).then((user) => {
+      if(!user) {
+        return Promise.reject();
+      }
+      return new Promise((resolve,reject) => {
+        bcrypt.compare(password, user.password,(err,res) => {
+          if(res) {
+            resolve(user);
+          } else {
+            reject();
+          }
+        });
+      });
+    });
+};
+
+UserSchema.methods.removeToken = function(token) {
+  var user = this;
+  return user.update({
+    $pull: {
+      tokens: {
+        token: token
+      }
+    }
+  })
+}
+
 var Users = mongoose.model('Users', UserSchema )
 
 module.exports = { Users }
